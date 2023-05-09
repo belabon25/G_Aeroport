@@ -50,6 +50,22 @@ public class Start {
         System.out.println("Durée de l'escale : "+es.obtenirDuree());
         volFinal.addEscale(es);
         System.out.println("Escales durant volFinal : "+ volFinal.getEscales());
+        String ded2 = "22/10/2020 17:26";
+        String def2 = "22/10/2020 21:38";
+        Ville vEscale2 = new Ville("Paris");
+        Aeroport aeroportEscale2 = new Aeroport("CDG",vEscale2);
+        aeroportEscale2.addVille(vEscale2);
+        Escale es2 = new Escale();
+        es2.setAeroport(aeroportEscale2);
+        try {
+            es2.setDebutEscale(format.parse(ded2));
+            es2.setFinEscale(format.parse(def2));
+        } catch (Exception e){
+            throw new RuntimeException("Unable to format to date");
+        }
+        System.out.println("Durée de l'escale : "+es2.obtenirDuree());
+        volFinal.addEscale(es2);
+        System.out.println("Escales durant volFinal : "+ volFinal.getEscales());
         System.out.println("##############################################");
         System.out.println("Test compagnies");
         System.out.println("##############################################");
@@ -59,17 +75,30 @@ public class Start {
         Vol vol2 = new Vol();
         vol2.setNumero("abc2");
 
+        Vol voll = new Vol();
+        vol2.setNumero("023489");
+        Vol voll2 = new Vol();
+        vol2.setNumero("064778");
+
         Compagnie compagnie = new Compagnie();
         compagnie.setName("Air France");
         compagnie.addVol(vol);
         compagnie.addVol(vol2);
+        Compagnie compagnie2 = new Compagnie();
+        compagnie2.setName("Free Fly");
+        compagnie2.addVol(voll);
+        compagnie2.addVol(voll2);
+        compagnie2.removeVol(voll);
 
         for(Vol v : compagnie.getVols()){
             System.out.println(v.getNumero());
         }
+        for(Vol v : compagnie2.getVols()){
+            System.out.println(v.getNumero());
+        }
 
         System.out.println(vol.getCompagnie().getName());
-        System.out.println(vol2.getCompagnie().getName());
+        System.out.println(voll2.getCompagnie().getName());
 
         vol2.setCompagnie(null);
         System.out.println(vol2.getCompagnie());
@@ -80,15 +109,35 @@ public class Start {
         }
 
         System.out.println("##############################################");
-        System.out.println("Test réservation");
+        System.out.println("Test reservation");
         System.out.println("##############################################");
-        Client c = new Client("Benjamin LABONNE","CB","Tel",vol,2);
+        Client c = new Client("Benjamin LABONNE","CB","0739524877",vol,2);
+        Client c2 = new Client("Khaled AL_HENDI","cash","khaled_alhendi@gmail.com",vol,1);
         HashSet<Reservation> r = c.getReservation();
+        HashSet<Reservation> r2 = c2.getReservation();
         Iterator<Reservation> iter = r.iterator();
+        Iterator<Reservation> iter2 = r2.iterator();
         Reservation res;
         while(iter.hasNext()){
             res = iter.next();
-            System.out.println(res.getPassagerID());
+            System.out.println(res.getPassagerID() + ":");
+            System.out.println(res.getClient().getNom());
+            System.out.println("contact : " + res.getClient().getContact());
+            res.getClient().setVol(vol);
+        }
+
+        Reservation res2;
+        while(iter2.hasNext()){
+            res2 = iter2.next();
+            System.out.println(res2.getPassagerID() + ":");
+            System.out.println(res2.getClient().getNom());
+            System.out.println("contact : " + res2.getClient().getContact());
+            res2.getClient().setPaiement("CB");
+            res2.getClient().setVol(voll);
+            System.out.println("paiment par : " + res2.getClient().getPaiement());
+            System.out.println(res2.getVol().getCompagnie());
+
+
         }
 
         //Vérification réservations vol
@@ -96,6 +145,23 @@ public class Start {
         while(iter.hasNext()){
             res = iter.next();
             System.out.println(res.getPassagerID());
-        }       
+        }
+
+        System.out.println("##############################################");
+        System.out.println("Test Aeroport");
+        System.out.println("##############################################");
+        Ville ville1 = new Ville("Paris");
+        Aeroport Aerport1 = new Aeroport("CDG", ville1);
+        Aeroport Aerport2 = new Aeroport("Orly", ville1);
+
+        HashSet<Ville> vil1 = Aerport1.getVilles();
+        Iterator<Ville> iterv = vil1.iterator();
+        Ville vil;
+        while(iterv.hasNext()){
+            vil = iterv.next();
+            System.out.println(vil.getNom() + ":");
+            System.out.println("L'aeroport " + Aerport1.getNom() + " est à " + vil.getNom());
+            System.out.println("L'aeroport " + Aerport2.getNom() + " est à " + vil.getNom());
+        }
     }
 }
