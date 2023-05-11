@@ -151,4 +151,8 @@ public class Vol {
             return false;
         }
     }
+    @Override
+    public String toString() {
+        return "Vol numéro "+numero;
+    }
 }

@@ -76,9 +76,9 @@ public class Start {
         vol2.setNumero("abc2");
 
         Vol voll = new Vol();
-        vol2.setNumero("023489");
+        voll.setNumero("023489");
         Vol voll2 = new Vol();
-        vol2.setNumero("064778");
+        voll2.setNumero("064778");
 
         Compagnie compagnie = new Compagnie();
         compagnie.setName("Air France");
@@ -90,19 +90,20 @@ public class Start {
         compagnie2.addVol(voll2);
         compagnie2.removeVol(voll);
 
+        System.out.println("Vols de "+compagnie);
         for(Vol v : compagnie.getVols()){
             System.out.println(v.getNumero());
         }
+        System.out.println("Vols de "+compagnie2);
         for(Vol v : compagnie2.getVols()){
             System.out.println(v.getNumero());
         }
 
-        System.out.println(vol.getCompagnie().getName());
-        System.out.println(voll2.getCompagnie().getName());
-
+        System.out.println("Mise a null de "+vol2);
         vol2.setCompagnie(null);
         System.out.println(vol2.getCompagnie());
 
+        System.out.println("Ajout de "+vol2+" à "+compagnie);
         vol2.setCompagnie(compagnie);
         for(Vol v : compagnie.getVols()){
             System.out.println(v.getNumero());
@@ -113,6 +114,7 @@ public class Start {
         System.out.println("##############################################");
         Client c = new Client("Benjamin LABONNE","CB","0739524877",vol,2);
         Client c2 = new Client("Khaled AL_HENDI","cash","khaled_alhendi@gmail.com",vol,1);
+        System.out.println(c);
         HashSet<Reservation> r = c.getReservation();
         HashSet<Reservation> r2 = c2.getReservation();
         Iterator<Reservation> iter = r.iterator();
@@ -120,31 +122,22 @@ public class Start {
         Reservation res;
         while(iter.hasNext()){
             res = iter.next();
-            System.out.println(res.getPassagerID() + ":");
+            System.out.println(res.getPassagerID() + ", reservé par :");
             System.out.println(res.getClient().getNom());
             System.out.println("contact : " + res.getClient().getContact());
-            res.getClient().setVol(vol);
         }
 
         Reservation res2;
         while(iter2.hasNext()){
             res2 = iter2.next();
-            System.out.println(res2.getPassagerID() + ":");
+            System.out.println(res2.getPassagerID() + ", reservé par:");
             System.out.println(res2.getClient().getNom());
             System.out.println("contact : " + res2.getClient().getContact());
             res2.getClient().setPaiement("CB");
-            res2.getClient().setVol(voll);
             System.out.println("paiment par : " + res2.getClient().getPaiement());
             System.out.println(res2.getVol().getCompagnie());
 
 
-        }
-
-        //Vérification réservations vol
-        iter = vol.getReservations().iterator();
-        while(iter.hasNext()){
-            res = iter.next();
-            System.out.println(res.getPassagerID());
         }
 
         System.out.println("##############################################");

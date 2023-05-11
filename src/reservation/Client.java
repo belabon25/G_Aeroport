@@ -1,6 +1,8 @@
 package reservation;
 
 import java.util.HashSet;
+import java.util.Iterator;
+
 import aeroport.Vol;
 
 //Un client peut faire plusieurs réservations
@@ -10,7 +12,6 @@ public class Client {
     private String paiement;
     private String contact;
     private int nbReservations;
-    private Vol vol;
     private HashSet<Reservation> reservations = new HashSet<>();
     public Client(String nom,String paiement, String contact,Vol vol,int nbRes){
         this.nom=nom;
@@ -28,12 +29,10 @@ public class Client {
         this.nom = nom;
     } 
 
+    //On ne stocke pas les vols dans le client pour minimiser le couplage, il est donc impossible de changer de vol (setVol n'existe pas) 
     public Vol getVol() {
-        return vol;
-    }
-
-    public void setVol(Vol vol) {
-        this.vol = vol;
+        Iterator<Reservation> it = reservations.iterator();
+        return it.next().getVol();
     }
 
     public String getReference() {
@@ -59,5 +58,9 @@ public class Client {
 
     public HashSet<Reservation> getReservation() {
         return reservations;
+    }
+    @Override
+    public String toString() {
+        return nom+" a réservé "+nbReservations+" places pour "+getVol();
     }
 }
